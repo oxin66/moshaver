@@ -1,0 +1,7 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[context.production.environment]
+  REACT_APP_SUPABASE_URL = "YOUR_SUPABASE_URL"
+  REACT_APP_SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY"
