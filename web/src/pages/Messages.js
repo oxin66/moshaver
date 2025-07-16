@@ -12,6 +12,7 @@ import {
   ListItemText,
   Typography,
   Paper,
+  Input,
 } from '@mui/material';
 
 const Messages = () => {
@@ -19,6 +20,7 @@ const Messages = () => {
   const [selectedStudent, setSelectedStudent] = useState('');
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -58,18 +60,38 @@ const Messages = () => {
     setSelectedStudent(e.target.value);
   };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
+
+    let fileUrl = null;
+    if (file) {
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('chat-files')
+        .upload(`${selectedStudent}/${file.name}`, file);
+
+      if (uploadError) {
+        console.error('Error uploading file:', uploadError);
+        return;
+      }
+      fileUrl = uploadData.Key;
+    }
+
     const { data, error } = await supabase.from('messages').insert([
       {
         student_id: selectedStudent,
         sender_id: supabase.auth.user().id,
         content: newMessage,
+        file_url: fileUrl,
       },
     ]);
     if (error) console.log('Error sending message: ', error);
     else {
       setNewMessage('');
+      setFile(null);
     }
   };
 
@@ -97,7 +119,18 @@ const Messages = () => {
             <List>
               {messages.map((message) => (
                 <ListItem key={message.id}>
-                  <ListItemText primary={message.content} />
+                  <ListItemText
+                    primary={message.content}
+                    secondary={
+                      message.file_url && (
+                        <img
+                          src={supabase.storage.from('chat-files').getPublicUrl(message.file_url).publicURL}
+                          alt="attachment"
+                          style={{ maxWidth: '100%' }}
+                        />
+                      )
+                    }
+                  />
                 </ListItem>
               ))}
             </List>
@@ -110,6 +143,7 @@ const Messages = () => {
               fullWidth
               margin="normal"
             />
+            <Input type="file" onChange={handleFileChange} />
             <Button type="submit" variant="contained" color="primary">
               Send
             </Button>

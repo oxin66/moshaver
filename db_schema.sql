@@ -41,7 +41,8 @@ CREATE TABLE messages (
   id BIGSERIAL PRIMARY KEY,
   student_id UUID REFERENCES students(id) ON DELETE CASCADE,
   sender_id UUID REFERENCES users(id) ON DELETE CASCADE,
-  content TEXT NOT NULL,
+  content TEXT,
+  file_url TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
