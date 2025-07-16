@@ -7,6 +7,7 @@ import Messages from './pages/Messages';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import AIAnalysis from './pages/AIAnalysis';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/messages" element={<Messages />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/ai-analysis" element={<AIAnalysis />} />
           </Routes>
         </main>
       </div>

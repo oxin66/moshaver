@@ -65,3 +65,14 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
+
+-- Performance Data table
+CREATE TABLE performance_data (
+  id BIGSERIAL PRIMARY KEY,
+  student_id UUID REFERENCES students(id) ON DELETE CASCADE,
+  subject VARCHAR(255) NOT NULL,
+  score FLOAT,
+  completion_rate FLOAT,
+  time_spent_minutes INT,
+  recorded_at TIMESTAMPTZ DEFAULT NOW()
+);
