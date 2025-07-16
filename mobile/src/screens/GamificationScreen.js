@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { supabase } from '../supabaseClient';
+import { Appbar, Card, Title, Paragraph } from 'react-native-paper';
 
 const GamificationScreen = () => {
   const [score, setScore] = useState(0);
@@ -33,10 +34,23 @@ const GamificationScreen = () => {
   }, []);
 
   return (
-    <View>
-      <Text>Your Score: {score}</Text>
-      <Text>Your Medal: {medal}</Text>
-    </View>
+    <>
+      <Appbar.Header>
+        <Appbar.Content title="Gamification" />
+      </Appbar.Header>
+      <Card style={{ margin: 8 }}>
+        <Card.Content>
+          <Title>Your Score</Title>
+          <Paragraph>{score}</Paragraph>
+        </Card.Content>
+      </Card>
+      <Card style={{ margin: 8 }}>
+        <Card.Content>
+          <Title>Your Medal</Title>
+          <Paragraph>{medal}</Paragraph>
+        </Card.Content>
+      </Card>
+    </>
   );
 };
 

@@ -1,5 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
+import {
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Button,
+  TextField,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  Paper,
+} from '@mui/material';
 
 const Messages = () => {
   const [students, setStudents] = useState([]);
@@ -62,32 +75,44 @@ const Messages = () => {
 
   return (
     <div>
-      <h2>Messages</h2>
-      <select onChange={handleStudentChange} value={selectedStudent}>
-        <option value="">Select a student</option>
-        {students.map((student) => (
-          <option key={student.id} value={student.id}>
-            {student.name}
-          </option>
-        ))}
-      </select>
+      <Typography variant="h4" gutterBottom>
+        Messages
+      </Typography>
+      <FormControl fullWidth>
+        <InputLabel>Select a student</InputLabel>
+        <Select value={selectedStudent} onChange={handleStudentChange}>
+          {students.map((student) => (
+            <MenuItem key={student.id} value={student.id}>
+              {student.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       {selectedStudent && (
         <div>
-          <h3>Chat</h3>
-          <div>
-            {messages.map((message) => (
-              <div key={message.id}>
-                <p>{message.content}</p>
-              </div>
-            ))}
-          </div>
+          <Typography variant="h5" gutterBottom>
+            Chat
+          </Typography>
+          <Paper style={{ height: 300, overflow: 'auto' }}>
+            <List>
+              {messages.map((message) => (
+                <ListItem key={message.id}>
+                  <ListItemText primary={message.content} />
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
           <form onSubmit={handleSendMessage}>
-            <input
-              type="text"
+            <TextField
+              label="Type your message"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
+              fullWidth
+              margin="normal"
             />
-            <button type="submit">Send</button>
+            <Button type="submit" variant="contained" color="primary">
+              Send
+            </Button>
           </form>
         </div>
       )}

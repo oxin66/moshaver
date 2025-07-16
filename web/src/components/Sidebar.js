@@ -1,25 +1,47 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 
 const Sidebar = () => {
   return (
-    <div style={{ width: '200px', backgroundColor: '#f0f0f0', padding: '20px' }}>
-      <h2>Counselor Panel</h2>
-      <ul>
-        <li>
-          <Link to="/dashboard">Dashboard</Link>
-        </li>
-        <li>
-          <Link to="/students">Manage Students</Link>
-        </li>
-        <li>
-          <Link to="/schedule">Weekly Schedule</Link>
-        </li>
-        <li>
-          <Link to="/messages">Messages</Link>
-        </li>
-      </ul>
-    </div>
+    <Drawer
+      variant="permanent"
+      sx={{
+        width: 240,
+        flexShrink: 0,
+        '& .MuiDrawer-paper': {
+          width: 240,
+          boxSizing: 'border-box',
+        },
+      }}
+    >
+      <Toolbar>
+        <Typography variant="h6" noWrap>
+          Counselor Panel
+        </Typography>
+      </Toolbar>
+      <List>
+        <ListItem button component={Link} to="/dashboard">
+          <ListItemText primary="Dashboard" />
+        </ListItem>
+        <ListItem button component={Link} to="/students">
+          <ListItemText primary="Manage Students" />
+        </ListItem>
+        <ListItem button component={Link} to="/schedule">
+          <ListItemText primary="Weekly Schedule" />
+        </ListItem>
+        <ListItem button component={Link} to="/messages">
+          <ListItemText primary="Messages" />
+        </ListItem>
+      </List>
+    </Drawer>
   );
 };
 

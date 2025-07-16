@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { supabase } from '../supabaseClient';
+import {
+  TextInput,
+  Button,
+  Appbar,
+  Card,
+  Paragraph,
+} from 'react-native-paper';
 
 const MessagesScreen = () => {
   const [messages, setMessages] = useState([]);
@@ -44,23 +51,31 @@ const MessagesScreen = () => {
   };
 
   return (
-    <View>
+    <>
+      <Appbar.Header>
+        <Appbar.Content title="Messages" />
+      </Appbar.Header>
       <FlatList
         data={messages}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View>
-            <Text>{item.content}</Text>
-          </View>
+          <Card style={{ margin: 8 }}>
+            <Card.Content>
+              <Paragraph>{item.content}</Paragraph>
+            </Card.Content>
+          </Card>
         )}
       />
-      <TextInput
-        value={newMessage}
-        onChangeText={setNewMessage}
-        placeholder="Type your message"
-      />
-      <Button title="Send" onPress={handleSendMessage} />
-    </View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', padding: 8 }}>
+        <TextInput
+          style={{ flex: 1 }}
+          value={newMessage}
+          onChangeText={setNewMessage}
+          placeholder="Type your message"
+        />
+        <Button onPress={handleSendMessage}>Send</Button>
+      </View>
+    </>
   );
 };
 

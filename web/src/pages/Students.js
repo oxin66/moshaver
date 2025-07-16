@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+} from '@mui/material';
 
 const Students = () => {
   const [students, setStudents] = useState([]);
@@ -30,29 +40,33 @@ const Students = () => {
 
   return (
     <div>
-      <h2>Manage Students</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Grade</th>
-            <th>Field of Study</th>
-            <th>Phone Number</th>
-          </tr>
-        </thead>
-        <tbody>
-          {students.map((student) => (
-            <tr key={student.id}>
-              <td>{student.name}</td>
-              <td>{student.users.email}</td>
-              <td>{student.grade}</td>
-              <td>{student.field_of_study}</td>
-              <td>{student.phone_number}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Typography variant="h4" gutterBottom>
+        Manage Students
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Grade</TableCell>
+              <TableCell>Field of Study</TableCell>
+              <TableCell>Phone Number</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {students.map((student) => (
+              <TableRow key={student.id}>
+                <TableCell>{student.name}</TableCell>
+                <TableCell>{student.users.email}</TableCell>
+                <TableCell>{student.grade}</TableCell>
+                <TableCell>{student.field_of_study}</TableCell>
+                <TableCell>{student.phone_number}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

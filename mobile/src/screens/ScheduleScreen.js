@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import { supabase } from '../supabaseClient';
+import {
+  Card,
+  Title,
+  Paragraph,
+  Button,
+  Appbar,
+} from 'react-native-paper';
 
 const ScheduleScreen = () => {
   const [schedule, setSchedule] = useState([]);
@@ -31,24 +38,30 @@ const ScheduleScreen = () => {
   };
 
   return (
-    <View>
-      <Text>Weekly Schedule</Text>
+    <>
+      <Appbar.Header>
+        <Appbar.Content title="Weekly Schedule" />
+      </Appbar.Header>
       <FlatList
         data={schedule}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View>
-            <Text>
-              {item.day} at {item.time}: {item.task}
-            </Text>
-            <Button
-              title={item.completed ? 'Mark as Incomplete' : 'Mark as Complete'}
-              onPress={() => toggleTaskStatus(item)}
-            />
-          </View>
+          <Card style={{ margin: 8 }}>
+            <Card.Content>
+              <Title>{item.task}</Title>
+              <Paragraph>
+                {item.day} at {item.time}
+              </Paragraph>
+            </Card.Content>
+            <Card.Actions>
+              <Button onPress={() => toggleTaskStatus(item)}>
+                {item.completed ? 'Mark as Incomplete' : 'Mark as Complete'}
+              </Button>
+            </Card.Actions>
+          </Card>
         )}
       />
-    </View>
+    </>
   );
 };
 

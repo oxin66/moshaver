@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
+import {
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Button,
+  TextField,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from '@mui/material';
 
 const Schedule = () => {
   const [students, setStudents] = useState([]);
@@ -49,47 +61,63 @@ const Schedule = () => {
 
   return (
     <div>
-      <h2>Weekly Schedule</h2>
-      <select onChange={handleStudentChange} value={selectedStudent}>
-        <option value="">Select a student</option>
-        {students.map((student) => (
-          <option key={student.id} value={student.id}>
-            {student.name}
-          </option>
-        ))}
-      </select>
+      <Typography variant="h4" gutterBottom>
+        Weekly Schedule
+      </Typography>
+      <FormControl fullWidth>
+        <InputLabel>Select a student</InputLabel>
+        <Select value={selectedStudent} onChange={handleStudentChange}>
+          {students.map((student) => (
+            <MenuItem key={student.id} value={student.id}>
+              {student.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       {selectedStudent && (
         <div>
-          <h3>Add Task</h3>
+          <Typography variant="h5" gutterBottom>
+            Add Task
+          </Typography>
           <form onSubmit={handleAddTask}>
-            <input
-              type="text"
-              placeholder="Task"
+            <TextField
+              label="Task"
               value={task}
               onChange={(e) => setTask(e.target.value)}
+              fullWidth
+              margin="normal"
             />
-            <input
-              type="text"
-              placeholder="Day"
+            <TextField
+              label="Day"
               value={day}
               onChange={(e) => setDay(e.target.value)}
+              fullWidth
+              margin="normal"
             />
-            <input
-              type="text"
-              placeholder="Time"
+            <TextField
+              label="Time"
               value={time}
               onChange={(e) => setTime(e.target.value)}
+              fullWidth
+              margin="normal"
             />
-            <button type="submit">Add Task</button>
+            <Button type="submit" variant="contained" color="primary">
+              Add Task
+            </Button>
           </form>
-          <h3>Current Schedule</h3>
-          <ul>
+          <Typography variant="h5" gutterBottom>
+            Current Schedule
+          </Typography>
+          <List>
             {schedule.map((item) => (
-              <li key={item.id}>
-                {item.day} at {item.time}: {item.task}
-              </li>
+              <ListItem key={item.id}>
+                <ListItemText
+                  primary={item.task}
+                  secondary={`${item.day} at ${item.time}`}
+                />
+              </ListItem>
             ))}
-          </ul>
+          </List>
         </div>
       )}
     </div>

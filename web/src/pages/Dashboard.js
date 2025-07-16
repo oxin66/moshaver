@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { Bar } from 'react-chartjs-2';
+import { Typography, Paper } from '@mui/material';
 
 const Dashboard = () => {
   const [chartData, setChartData] = useState({});
@@ -58,8 +59,12 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h2>Student Progress Dashboard</h2>
-      <Bar data={chartData} />
+      <Typography variant="h4" gutterBottom>
+        Student Progress Dashboard
+      </Typography>
+      <Paper>
+        <Bar data={chartData} />
+      </Paper>
     </div>
   );
 };
